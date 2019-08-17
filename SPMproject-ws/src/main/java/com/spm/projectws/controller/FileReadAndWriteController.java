@@ -3,6 +3,7 @@ package com.spm.projectws.controller;
 import com.spm.projectws.model.FileDetails;
 import com.spm.projectws.service.CalculateService;
 import com.spm.projectws.service.CodeService;
+import com.spm.projectws.service.RecursionService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,10 @@ public class FileReadAndWriteController {
     @Autowired
     CodeService codeService;
     
+    @Autowired
+    RecursionService RecursionService;
+
+    
     @RequestMapping(value = "/sendfile", method = RequestMethod.POST)
     public ResponseEntity<Object> getFile(@RequestParam("file") MultipartFile file ,@RequestParam("codename") String codeName){
         
@@ -36,6 +41,18 @@ public class FileReadAndWriteController {
             
             String sourseCode = new String(fileDetails.getFile());
             codeService.SaveSourceCode(sourseCode , codeName);
+            
+            //Find CI value
+            codeService.CalculateCI(codeName);
+            
+            //Find Recursion
+            int value = RecursionService.findRecursion(codeName);
+            
+            if(value == 100){
+                System.out.println("==============  TRUE  ============");
+            }else if(value == -200){
+                System.out.println("==============  FALSE  ============");
+            }
 //            String str = "inusha"; 
 //            char[] pattern = str.toCharArray();
 //            char[] text = s.toCharArray();
