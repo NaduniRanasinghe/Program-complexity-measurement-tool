@@ -69,11 +69,12 @@ public class FileReadAndWriteController {
             int value = recursionService.findRecursion(codeName);
             
             if(value == 100){
+
                 //Save recursion
                 recursionService.saveCr(codeName);
-                System.out.println("==============  THERE HAVE A RECURSION IN THE CODE ============");
+                System.out.println("==============  THERE IS A RECURSION IN THE CODE ============");
             }else if(value == -200){
-                System.out.println("==============  THERE HAVE NO RECURSION IN THE CODE  ============");
+                System.out.println("==============  THERE IS NO RECURSION IN THE CODE ============");
             }
         
         return new ResponseEntity<>(fileDetails, HttpStatus.OK);
