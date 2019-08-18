@@ -27,7 +27,7 @@ public class RecursionService {
         //find code KeyNumber
         CodeFind codeFind = codeRepository.findCodeKey(CodeKeyName);
         
-        //by using CodeKeyNumber get data from CodeLine
+        //using CodeKeyNumber get data from CodeLine
         LinkedList<CodeLine> allCode = codeLineRepository.getAllSourceCode(codeFind.getCodeNumber());
         
         //get objects of CodeLine
@@ -57,8 +57,8 @@ public class RecursionService {
                                 int availableNo = CalculateService.search(c2.getpStatement(),functionName);  
                                 
                                 if(availableNo == 1){
-                                    int availableSemiColon = CalculateService.search(c2.getpStatement(),");"); 
-                                    if(availableSemiColon == 1){
+                                    int availableComma = CalculateService.search(c2.getpStatement(),");"); 
+                                    if(availableComma == 1){
                                         return 100;
                                     }
                                 }
@@ -67,11 +67,22 @@ public class RecursionService {
                     }
                 }
             }
-
         }
         
         return -200;
-        
     }
     
+    public void saveCr(String CodeKeyName){
+        //find code KeyNumber
+        CodeFind codeFind = codeRepository.findCodeKey(CodeKeyName);
+        
+        //using CodeKeyNumber get data from CodeLine
+        LinkedList<CodeLine> allCode = codeLineRepository.getAllSourceCode(codeFind.getCodeNumber());
+        
+        //get objects of CodeLine
+        for (CodeLine cl : allCode) {
+            //save cr in the table
+            codeLineRepository.updateCr(cl.getCps() * 2, cl.getId());
+        }
+    }
 }
