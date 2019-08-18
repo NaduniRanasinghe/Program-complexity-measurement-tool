@@ -6,25 +6,6 @@ package com.spm.projectws.service;
  */
 public class CalculateService {
     
-//    public int simpleTextSearch(char[] pattern, char[] text) {
-//    int patternSize = pattern.length;
-//    int textSize = text.length;
-// 
-//    int i = 0;
-// 
-//    while ((i + patternSize) <= textSize) {
-//        int j = 0;
-//        while (text[i + j] == pattern[j]) {
-//            j += 1;
-//            if (j >= patternSize)
-//                return i;
-//        }
-//        i += 1;
-//    }
-//    return -1;
-//    }
-    
-    
     public int search(String txt, String pat) 
     { 
         int M = pat.length(); 
@@ -45,9 +26,7 @@ public class CalculateService {
                 System.out.println("Pattern found at index " + i); 
                 p++;
             }
-            
         } 
-        
         return p;
     } 
 }
