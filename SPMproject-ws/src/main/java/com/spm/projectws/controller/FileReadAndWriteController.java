@@ -49,9 +49,9 @@ public class FileReadAndWriteController {
             int value = RecursionService.findRecursion(codeName);
             
             if(value == 100){
-                System.out.println("==============  TRUE  ============");
+                System.out.println("==============  THERE IS A RECURSION IN THE CODE ============");
             }else if(value == -200){
-                System.out.println("==============  FALSE  ============");
+                System.out.println("==============  THERE IS NO RECURSION IN THE CODE ============");
             }
 //            String str = "inusha"; 
 //            char[] pattern = str.toCharArray();

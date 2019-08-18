@@ -57,8 +57,8 @@ public class RecursionService {
                                 int availableNo = CalculateService.search(c2.getpStatement(),functionName);  
                                 
                                 if(availableNo == 1){
-                                    int availableComma = CalculateService.search(c2.getpStatement(),");"); 
-                                    if(availableComma == 1){
+                                    int availableSemiColon = CalculateService.search(c2.getpStatement(),");"); 
+                                    if(availableSemiColon == 1){
                                         return 100;
                                     }
                                 }
