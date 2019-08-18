@@ -27,7 +27,7 @@ public class RecursionService {
         //find code KeyNumber
         CodeFind codeFind = codeRepository.findCodeKey(CodeKeyName);
         
-        //using CodeKeyNumber get data from CodeLine
+        //by using CodeKeyNumber get data from CodeLine
         LinkedList<CodeLine> allCode = codeLineRepository.getAllSourceCode(codeFind.getCodeNumber());
         
         //get objects of CodeLine
