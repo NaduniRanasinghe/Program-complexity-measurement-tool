@@ -40,7 +40,14 @@ public class CodeService {
                 codeLine.setpStatement(statement);
                 codeLine.setCodeNumber(uniqueKey);
                 codeLine.setLineNumber(lineNumber);
-                        
+                codeLine.setCi(0);
+                codeLine.setCnc(0);
+                codeLine.setCps(0);
+                codeLine.setCr(0);
+                codeLine.setCs(0);
+                codeLine.setCtc(0);
+                codeLine.setTw(0);
+
                 System.out.println(statement); 
                 codeLineRepository.save(codeLine);
                 lineNumber++;

@@ -1,9 +1,11 @@
 package com.spm.projectws.controller;
 
 import com.spm.projectws.model.FileDetails;
-import com.spm.projectws.service.CalculateService;
+import com.spm.projectws.service.CalculateCncAndCtcService;
+import com.spm.projectws.service.CalculateTwAndCps;
 import com.spm.projectws.service.CodeService;
 import com.spm.projectws.service.RecursionService;
+import com.spm.projectws.service.SizeService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +31,16 @@ public class FileReadAndWriteController {
     CodeService codeService;
     
     @Autowired
-    RecursionService RecursionService;
+    RecursionService recursionService;
+    
+    @Autowired
+    SizeService sizeService;
+    
+    @Autowired
+    CalculateCncAndCtcService calculateCncAndCtcService;
+    
+    @Autowired
+    CalculateTwAndCps calculateTwAndCps;
 
     
     @RequestMapping(value = "/sendfile", method = RequestMethod.POST)
@@ -38,38 +49,32 @@ public class FileReadAndWriteController {
         FileDetails fileDetails = new FileDetails();
         try {
             fileDetails.setFile(file.getBytes());
-            
             String sourseCode = new String(fileDetails.getFile());
+            //save code line by line in to the table
             codeService.SaveSourceCode(sourseCode , codeName);
             
+            //Find Cnc value
+            calculateCncAndCtcService.calculateCnc(codeName);
+            //Find Ctc value        
+            calculateCncAndCtcService.calculateCtc(codeName);
             //Find CI value
             codeService.CalculateCI(codeName);
-            
-            //Find Recursion
-            int value = RecursionService.findRecursion(codeName);
+            //Find size
+            sizeService.calculateCs(codeName);
+            //calculate TW 
+            calculateTwAndCps.calculateTw(codeName);
+            //calculate CPS
+            calculateTwAndCps.calculateCps(codeName);
+            //Find Recursion(Cr)
+            int value = recursionService.findRecursion(codeName);
             
             if(value == 100){
-                System.out.println("==============  TRUE  ============");
+                //Save recursion
+                recursionService.saveCr(codeName);
+                System.out.println("==============  THERE HAVE A RECURSION IN THE CODE ============");
             }else if(value == -200){
-                System.out.println("==============  FALSE  ============");
+                System.out.println("==============  THERE HAVE NO RECURSION IN THE CODE  ============");
             }
-//            String str = "inusha"; 
-//            char[] pattern = str.toCharArray();
-//            char[] text = s.toCharArray();
-//            
-//            CalculateService calculateService = new CalculateService();
-//            
-//            int result = calculateService.simpleTextSearch(pattern, text);
-
-                    // calculate algoritham, number of matches strings
-                    CalculateService calculateService = new CalculateService();
-                    String str = "inusha"; 
-                    int result = calculateService.search(sourseCode, str);
-
-            
-            System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTT: " + result);
-
-        System.out.println(fileDetails.getFile());
         
         return new ResponseEntity<>(fileDetails, HttpStatus.OK);
         } catch (IOException ex) {
